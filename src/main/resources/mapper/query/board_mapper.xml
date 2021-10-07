@@ -7,4 +7,10 @@
         select * from board_mybatis;
     </select>
 
+    <insert id="insert" parameterType="com.example.board_mybatis_v1.dto.BoardDTO" >
+        insert into board_mybatis (no, contents, create_time, mofity_time, title, writer)
+        VALUES (#{no},#{contents},#{createTime},#{mofityTime},#{title}, #{writer})
+
+    </insert>
+
 </mapper>

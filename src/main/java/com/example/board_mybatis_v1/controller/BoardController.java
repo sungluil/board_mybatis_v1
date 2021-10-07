@@ -2,10 +2,12 @@ package com.example.board_mybatis_v1.controller;
 
 import com.example.board_mybatis_v1.domain.BoardMybatis;
 import com.example.board_mybatis_v1.repository.BoardMybatisRepository;
+import com.example.board_mybatis_v1.service.BoardService;
 import com.tobesoft.xplatform.data.DataSet;
 import com.tobesoft.xplatform.data.DataTypes;
 import com.tobesoft.xplatform.data.PlatformData;
 import com.tobesoft.xplatform.data.VariableList;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,18 +15,30 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api")
 public class BoardController {
 
+    private final BoardService boardService;
     private final BoardMybatisRepository boardMybatisRepository;
 
-    public BoardController(BoardMybatisRepository boardMybatisRepository) {
-        this.boardMybatisRepository = boardMybatisRepository;
-    }
 
     @GetMapping("/findAll")
     public List<BoardMybatis> getBoard() {
-        return boardMybatisRepository.findAll();
+
+
+        List<BoardMybatis> all = boardService.findAll();
+
+        if (all.size() == 0) {
+            throw new IllegalArgumentException("error");
+        }
+
+        return boardService.findAll();
+    }
+
+    @GetMapping("/insert")
+    public void insert() {
+        boardService.insert();
     }
 
 
